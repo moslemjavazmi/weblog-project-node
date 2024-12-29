@@ -5,6 +5,8 @@ const fetch = require('node-fetch');
 
 const User = require("../models/User");
 
+const { sendEmail } = require("../utils/mailer");
+
 exports.login = (req, res) => {
     res.render("login", {
         pageTitle: "ورود به بخش مدیریت",
@@ -86,6 +88,15 @@ exports.createUser = async (req, res) => {
         // const hash = await bcrypt.hash(password, 10);
         // await User.create({ fullname, email, password: hash });
         await User.create({ fullname, email, password});
+
+        //? send welcome email 
+        sendEmail(
+            email, 
+            fullname,
+            "به دایان وب خوش آمدید",
+            "ثبت نام با موفقیت انجام شد",
+            );
+
         req.flash("success_msg", "ثبت نام موفقیت آمیز بود.");
         res.redirect("/users/login");
     } catch (err) {

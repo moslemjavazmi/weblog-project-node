@@ -1,7 +1,7 @@
 const path = require("path");
 
 const debug = require("debug")("weblog-project");
-const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
 const express = require("express");
 const mongoose = require('mongoose');
 const expressLayout = require("express-ejs-layouts");
@@ -42,8 +42,12 @@ app.set("layout", "./layouts/mainLayout");
 app.set("views", "views");
 
 //* BodyPaser
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+
+//* File Upload Middleware
+app.use(fileUpload());
 
 //* Session
 app.use(
